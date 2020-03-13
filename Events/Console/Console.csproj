@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Logic\Logic.csproj" />
-    <ProjectReference Include="..\Domains\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Domain\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Repository\DatabaseRepositories\DatabaseRepositories.csproj" />
   </ItemGroup>
 
