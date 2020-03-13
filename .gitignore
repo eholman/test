@@ -2,4 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Events/.vs/Events
+**/bin/*
+**/obj/*
+**/.vs
+**DotSettings.user

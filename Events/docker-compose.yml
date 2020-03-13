@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  myeventstore:
+    image: eventstore/eventstore:with-cert-local
+    build:
+      context: .
+      dockerfile: .docker/EventStore/Dockerfile
+    ports:
+      - "2113:2113"
+      - "1113:1113"
+      - "1115:1115"
+    environment:
+      - EVENTSTORE_CERTIFICATE_FILE=eventstore.p12 
+      - EVENTSTORE_EXT_SECURE_TCP_PORT=1115 
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+#  console:
+#    image: ${DOCKER_REGISTRY-}console
+#    build:
+#      context: .
+#      dockerfile: Console/Dockerfile
+#    depends_on:
+#      - myeventstore
+#      - db
+#
