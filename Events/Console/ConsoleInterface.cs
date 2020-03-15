@@ -27,14 +27,14 @@ namespace Console
             bool stop;
             do
             {
-                System.Console.WriteLine("Press q to quit. Press h for Help");
+                System.Console.WriteLine("Enter command. Press q to quit, h for Help");
                 var input = System.Console.ReadKey()
                     .KeyChar;
 
                 stop = await ProcessInput(input) == false;
             } while (!stop);
 
-            System.Console.WriteLine("Bye :-)");
+            System.Console.WriteLine("\bBye :-)");
 
             _applicationLifetime.StopApplication();
         }

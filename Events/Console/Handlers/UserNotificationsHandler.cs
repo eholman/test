@@ -34,5 +34,13 @@ namespace Console.Handlers
 
             return Task.CompletedTask;
         }
+
+        /// <inheritdoc />
+        public Task Handle(UserDeletedEvent notification, CancellationToken cancellationToken)
+        {
+            System.Console.WriteLine($"User is marked for deletion at: {notification.DeletionMoment}");
+
+            return Task.CompletedTask;
+        }
     }
 }

@@ -37,6 +37,10 @@ namespace DataAccess.MySQL
             modelBuilder.Entity<User>()
                 .Property(r => r.IsVerified)
                 .HasConversion(new BoolToZeroOneConverter<short>());
+
+            modelBuilder.Entity<User>()
+                .Property(r => r.IsDeleted)
+                .HasComputedColumnSql($"{nameof(User.ScheduledDeletionMoment)} is not null");
         }
     }
 }

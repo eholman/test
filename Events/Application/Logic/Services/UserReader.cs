@@ -22,7 +22,7 @@ namespace Logic.Services
         {
             var user = (await _userRepository.FindAllAsync(f => f.EmailAddress.ToLower()
                                                                     .Contains(emailAddress) &&
-                                                                f.ScheduledDeletionMoment == null))
+                                                                !f.IsDeleted))
                 .FirstOrDefault();
 
             return user;

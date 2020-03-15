@@ -19,5 +19,10 @@ namespace DataAccess.Entities
         /// Moment in time when the user should be completely removed. If property has a value, user is functional wise deleted
         /// </summary>
         public DateTime? ScheduledDeletionMoment { get; set; }
+
+        /// <summary>
+        /// Indication whether a user is deleted or not
+        /// </summary>
+        public bool IsDeleted { get; private set; }
     }
 }

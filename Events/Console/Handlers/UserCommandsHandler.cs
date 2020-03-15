@@ -4,8 +4,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Console.Commands;
-using DataAccess.Entities;
-using Events.Repository.Abstractions;
 using Logic.Services;
 using MediatR;
 
@@ -17,24 +15,21 @@ namespace Console.Handlers
         IRequestHandler<VerifyUserCommand, bool>, IRequestHandler<SearchUserCommand, bool>,
         IRequestHandler<ChangeUserEmailAddressCommand, bool>, IRequestHandler<DeleteUserCommand, bool>
     {
-        private readonly IWriteRepository<User> _useRepository;
         private readonly IUserReader _userReader;
         private readonly IUserWriter _writeService;
 
         public UserCommandsHandler(
             IUserWriter writeService,
-            IUserReader userReader,
-            IWriteRepository<User> useRepository)
+            IUserReader userReader)
         {
             _writeService = writeService;
             _userReader = userReader;
-            _useRepository = useRepository;
         }
 
         /// <inheritdoc />
         public Task<bool> Handle(ChangeUserEmailAddressCommand request, CancellationToken cancellationToken)
         {
-            var input = GetConsoleInput("Please enter User ID:");
+            var input = GetConsoleInput("\bPlease enter User ID:");
             var newEmailAddress = GetConsoleInput("Please new Email Address:");
 
             _writeService.ChangeEmailAddress(input, newEmailAddress);
@@ -45,7 +40,7 @@ namespace Console.Handlers
         /// <inheritdoc />
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var input = GetConsoleInput("Please enter email address: ");
+            var input = GetConsoleInput("\bPlease enter email address: ");
 
             System.Console.WriteLine("Sending command. Awaiting notification...");
             if (!await _writeService.CreateUser(input))
@@ -59,7 +54,7 @@ namespace Console.Handlers
         /// <inheritdoc />
         public Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var input = GetConsoleInput("Please enter User ID:");
+            var input = GetConsoleInput("\bPlease enter User ID:");
 
             _writeService.DeleteUser(input);
 
@@ -69,13 +64,7 @@ namespace Console.Handlers
         /// <inheritdoc />
         public async Task<bool> Handle(SearchUserCommand request, CancellationToken cancellationToken)
         {
-            var input = GetConsoleInput("Search for email address:");
-
-            await _useRepository.InsertAsync(new User
-            {
-                Id = Guid.NewGuid(),
-                EmailAddress = "erik@test.nl"
-            });
+            var input = GetConsoleInput("\bSearch for email address:");
 
             System.Console.Write("Searching... ");
             var foundUser = await _userReader.FindByEmail(input);
@@ -91,7 +80,7 @@ namespace Console.Handlers
         /// <inheritdoc />
         public Task<bool> Handle(VerifyUserCommand request, CancellationToken cancellationToken)
         {
-            var input = GetConsoleInput("Please enter User ID:");
+            var input = GetConsoleInput("\bPlease enter User ID:");
 
             System.Console.WriteLine("Sending command. Awaiting notification...");
             _writeService.VerifyUser(input);

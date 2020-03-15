@@ -14,7 +14,7 @@ namespace Console.Handlers
         /// <inheritdoc />
         public Task<bool> Handle(ListHelpCommand request, CancellationToken cancellationToken)
         {
-            System.Console.WriteLine("Press:");
+            System.Console.WriteLine("\bPress:");
             System.Console.WriteLine("  1 - for Create User Command");
             System.Console.WriteLine("  2 - for Verify User Command");
             System.Console.WriteLine("  3 - for Search User Command");

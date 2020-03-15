@@ -52,22 +52,39 @@ namespace Domain
                     Apply(createdEvent);
 
                     break;
-                case UserVerificationStateChangedEvent createdEvent:
-                    Apply(createdEvent);
+                case UserVerificationStateChangedEvent changeEvent:
+                    Apply(changeEvent);
+
+                    break;
+                case UserEmailAddressChangedEvent changeEvent:
+                    Apply(changeEvent);
+
+                    break;
+                case UserDeletedEvent deleteEvent:
+                    Apply(deleteEvent);
 
                     break;
             }
         }
 
-        private void Apply(UserCreatedEvent @event)
+
+        private void Apply(UserCreatedEvent createdeEvent)
         {
-            Id = @event.AggregateId;
-            EmailAddress = @event.EmailAddress;
+            Id = createdeEvent.AggregateId;
+            EmailAddress = createdeEvent.EmailAddress;
         }
 
-        private void Apply(UserVerificationStateChangedEvent @event)
+        private void Apply(UserVerificationStateChangedEvent changeEvent)
         {
-            IsVerified = @event.VerificationState;
+            IsVerified = changeEvent.VerificationState;
+        }
+        private void Apply(UserEmailAddressChangedEvent changeEvent)
+        {
+            EmailAddress = changeEvent.EmailAddress;
+        }
+        private void Apply(UserDeletedEvent deleteEvent)
+        {
+            DeletionMoment = deleteEvent.DeletionMoment;
         }
     }
 }
