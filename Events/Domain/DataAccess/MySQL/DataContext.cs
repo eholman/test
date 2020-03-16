@@ -25,7 +25,7 @@ namespace DataAccess.MySQL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(_configuration.GetConnectionString("SqlDatabase"));
+            optionsBuilder.UseMySql(_configuration.GetConnectionString("SqlDatabase"), builder => builder.EnableRetryOnFailure());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +41,10 @@ namespace DataAccess.MySQL
             modelBuilder.Entity<User>()
                 .Property(r => r.IsDeleted)
                 .HasComputedColumnSql($"{nameof(User.ScheduledDeletionMoment)} is not null");
+
+            modelBuilder.Entity<User>()
+                .Property(r => r.IsVerified)
+                .HasComputedColumnSql($"{nameof(User.EmailAddressUnverified)} is null");
         }
     }
 }

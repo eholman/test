@@ -19,9 +19,8 @@ namespace Domain
             EmailAddress = emailAddress;
             RaiseEvent(new UserCreatedEvent(id, emailAddress));
         }
-
+        
         public DateTime DeletionMoment { get; set; }
-
         public bool IsVerified { get; private set; }
         public string EmailAddress { get; private set; }
 
@@ -68,10 +67,10 @@ namespace Domain
         }
 
 
-        private void Apply(UserCreatedEvent createdeEvent)
+        private void Apply(UserCreatedEvent createdEvent)
         {
-            Id = createdeEvent.AggregateId;
-            EmailAddress = createdeEvent.EmailAddress;
+            Id = createdEvent.AggregateId;
+            EmailAddress = createdEvent.EmailAddress;
         }
 
         private void Apply(UserVerificationStateChangedEvent changeEvent)

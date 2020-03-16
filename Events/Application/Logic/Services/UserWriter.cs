@@ -50,7 +50,6 @@ namespace Logic.Services
         {
             var user = await _userRepository.GetByIdAsync(new UserId(userId));
             user.SetEmailAddress(newEmailAddress);
-            user.SetVerificationState(false);
             await _userRepository.SaveAsync(user);
         }
 

@@ -31,7 +31,7 @@ namespace Logic.Handlers
             return _writeRepository.InsertAsync(new User
             {
                 Id = notification.AggregateId.Id,
-                EmailAddress = notification.EmailAddress
+                EmailAddressUnverified = notification.EmailAddress
             });
         }
 
@@ -47,18 +47,21 @@ namespace Logic.Handlers
         public async Task Handle(UserEmailAddressChangedEvent notification, CancellationToken cancellationToken)
         {
             var user = await _readRepository.GetByIdAsync(notification.AggregateId.Id);
-            user.EmailAddress = notification.EmailAddress;
-            user.IsVerified = false;
+            user.EmailAddressUnverified = notification.EmailAddress;
             await _writeRepository.UpdateAsync(user);
         }
 
         /// <inheritdoc />
         public async Task Handle(UserVerificationStateChangedEvent notification, CancellationToken cancellationToken)
         {
-            // Validate
-            var user = await _readRepository.GetByIdAsync(notification.AggregateId.Id);
-            user.IsVerified = notification.VerificationState;
-            await _writeRepository.UpdateAsync(user);
+            // When user is verified update the email address 
+            if (notification.VerificationState)
+            {
+                var user = await _readRepository.GetByIdAsync(notification.AggregateId.Id);
+                user.EmailAddress = user.EmailAddressUnverified;
+                user.EmailAddressUnverified = null;
+                await _writeRepository.UpdateAsync(user);
+            }
         }
     }
 }

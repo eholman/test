@@ -4,6 +4,7 @@ using System;
 
 #endregion
 
+// ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace DataAccess.Entities
 {
     public class User : BaseEntity
@@ -11,9 +12,14 @@ namespace DataAccess.Entities
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Unverified email address
+        /// </summary>
+        public string EmailAddressUnverified { get; set; }
+
+        /// <summary>
         /// Indicated whether a user's email address is verified or not
         /// </summary>
-        public bool IsVerified { get; set; }
+        public bool IsVerified { get; private set; }
 
         /// <summary>
         /// Moment in time when the user should be completely removed. If property has a value, user is functional wise deleted

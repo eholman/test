@@ -27,7 +27,6 @@ namespace Domain
             }
 
             Apply(@event);
-            //((dynamic)this).Apply((dynamic)@event);
             _version = version;
         }
 

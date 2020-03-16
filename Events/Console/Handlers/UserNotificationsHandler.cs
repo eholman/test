@@ -14,7 +14,7 @@ namespace Console.Handlers
     {
         public Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
         {
-            System.Console.WriteLine("User has been created");
+            System.Console.WriteLine($"User has been created. ID : {notification.AggregateId.Id}");
 
             return Task.CompletedTask;
         }
